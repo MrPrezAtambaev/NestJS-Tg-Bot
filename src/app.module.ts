@@ -1,18 +1,16 @@
 import { Module } from '@nestjs/common';
-import { AppUpdate } from './app.update';
-import { AppService } from './app.service';
-import { TelegrafModule } from 'nestjs-telegraf';
-import * as LocalSession from 'telegraf-session-local';
-
-const session = new LocalSession({ database: 'session_db.json' });
+import { PrismaModule } from 'nestjs-prisma';
+import { TodoModule } from './todo/todo.module';
+import { TelegramBotModule } from './telegram-bot/telegram-bot.module';
 
 @Module({
   imports: [
-    TelegrafModule.forRoot({
-      middlewares: [session.middleware()],
-      token: '6054655762:AAFeNzyUq8JNJnin5kkAkxRN_RtQ_gnp8rU',
+    PrismaModule.forRoot({
+      isGlobal: true,
     }),
+    TodoModule,
+    TelegramBotModule,
   ],
-  providers: [AppService, AppUpdate],
+  providers: [],
 })
 export class AppModule {}
